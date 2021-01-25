@@ -68,9 +68,9 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			// Borders
 			context.DrawLine(drawX, drawY, drawX+float64(tileSize), drawY)
 			context.SetLineWidth(2)
-			context.SetHexColor("#00FFFF")
+			context.SetHexColor("#000")
 
-			context.Fill()
+			context.Stroke()
 		}
 	}
 
