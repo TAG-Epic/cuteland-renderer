@@ -59,7 +59,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 
 	// Background
 	context.DrawImage(backgroundSprite, 0, 0)
-	context.DrawImage(rocksSprite, 175, 175)
+	context.DrawImage(rocksSprite, 0, 0)
 
 	for x := 0; x < tileCount; x++ {
 		for y := 0; y < tileCount; y++ {
