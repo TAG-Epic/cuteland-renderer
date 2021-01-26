@@ -8,8 +8,6 @@ import (
 	"os"
 
 	"github.com/fogleman/gg"
-	"github.com/golang/freetype/truetype"
-	"golang.org/x/image/font/gofont/goregular"
 )
 
 var listen = "0.0.0.0:5050"
