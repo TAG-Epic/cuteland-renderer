@@ -98,8 +98,13 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			context.Stroke()
 
 			// Grid id
+			gridX := drawX + float64(tileSize-1)
+			gridY := drawX + float64(tileSize-1)
+
+			InfoLogger.Printf("Drawing grid id at %f:%f", gridX, gridY)
+
 			context.SetHexColor(grid_id_color)
-			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x+1), 10), drawX+float64(tileSize-1), drawX+float64(tileSize-1), 1, 1)
+			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x+1), 10), gridX, gridY, 1, 1)
 
 		}
 	}
