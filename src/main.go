@@ -99,7 +99,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 
 			// Grid id
 			gridX := drawX + float64(tileSize-1)
-			gridY := drawX + float64(tileSize-1)
+			gridY := drawY + float64(tileSize-1)
 
 			InfoLogger.Printf("Drawing grid id at %f:%f", gridX, gridY)
 
