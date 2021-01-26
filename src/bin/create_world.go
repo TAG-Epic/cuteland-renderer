@@ -18,7 +18,7 @@ var (
 )
 var (
 	backgroundSprite image.Image
-	rocksSprite      image.Image
+	borderSprite     image.Image
 )
 var (
 	grid_border_color string = "#707070"
@@ -51,7 +51,7 @@ func main() {
 	InfoLogger.Printf("Please input a border sprite name")
 	var borderSpriteName string
 	_, _ = fmt.Scanln(&borderSpriteName)
-	loadSprite(borderSpriteName, &rocksSprite)
+	loadSprite(borderSpriteName, &borderSprite)
 
 	renderBoard()
 }
@@ -67,7 +67,7 @@ func renderBoard() {
 
 	// Background
 	context.DrawImage(backgroundSprite, 0, 0)
-	context.DrawImage(rocksSprite, 0, 0)
+	context.DrawImage(borderSprite, 0, 0)
 
 	for x := 0; x < tileCount; x++ {
 		for y := 0; y < tileCount; y++ {

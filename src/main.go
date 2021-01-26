@@ -19,7 +19,7 @@ var (
 )
 var (
 	backgroundSprite image.Image
-	rocksSprite      image.Image
+	borderSprite     image.Image
 )
 var (
 	grid_border_color string = "#707070"
@@ -39,7 +39,7 @@ func init() {
 	// Sprite loading
 	InfoLogger.Print("Loading sprites")
 	loadSprite("background", &backgroundSprite)
-	loadSprite("rocks", &rocksSprite)
+	loadSprite("border", &borderSprite)
 }
 
 func main() {
@@ -65,7 +65,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 
 	// Background
 	context.DrawImage(backgroundSprite, 0, 0)
-	context.DrawImage(rocksSprite, 0, 0)
+	context.DrawImage(borderSprite, 0, 0)
 
 	for x := 0; x < tileCount; x++ {
 		for y := 0; y < tileCount; y++ {
