@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 
@@ -39,20 +38,20 @@ func init() {
 }
 
 func main() {
-	var world *string
+	var world string
 	InfoLogger.Printf("Please input a world name")
 	_, _ = fmt.Scanln(&world)
-	worldName = *world
+	worldName = world
 
 	InfoLogger.Printf("Please input a background sprite name")
-	var backgroundSpriteName *string
-	_, _ = fmt.Scanln(backgroundSpriteName)
-	loadSprite(*backgroundSpriteName, &backgroundSprite)
+	var backgroundSpriteName string
+	_, _ = fmt.Scanln(&backgroundSpriteName)
+	loadSprite(backgroundSpriteName, &backgroundSprite)
 
 	InfoLogger.Printf("Please input a background sprite name")
-	var borderSpriteName *string
-	_, _ = fmt.Scanln(borderSpriteName)
-	loadSprite(*borderSpriteName, &rocksSprite)
+	var borderSpriteName string
+	_, _ = fmt.Scanln(&borderSpriteName)
+	loadSprite(borderSpriteName, &rocksSprite)
 
 	renderBoard()
 }
