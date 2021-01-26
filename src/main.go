@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/fogleman/gg"
 	"image"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/fogleman/gg"
+	"github.com/golang/freetype/truetype"
+	"golang.org/x/image/font/gofont/goregular"
 )
 
 var listen = "0.0.0.0:5050"
@@ -18,10 +21,14 @@ var (
 var (
 	backgroundSprite image.Image
 	rocksSprite      image.Image
+	font             truetype.FontFace
 )
 var (
 	grid_border_color string = "#707070"
 	grid_color        string = "#e4e4a1"
+)
+var (
+	alphabet = []string{"a", "b", "c", "d", "e"}
 )
 
 func init() {
@@ -34,6 +41,13 @@ func init() {
 	InfoLogger.Print("Loading sprites")
 	loadSprite("background", &backgroundSprite)
 	loadSprite("rocks", &rocksSprite)
+
+	InfoLogger.Print("Loading fonts")
+	fontRaw, err := truetype.Parse(goregular.TFF)
+	if err != nil {
+		panic(err)
+	}
+	font = truetype.NewFace(font, &truetype.Options{Size: 48})
 }
 
 func main() {
@@ -60,6 +74,9 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 	// Background
 	context.DrawImage(backgroundSprite, 0, 0)
 	context.DrawImage(rocksSprite, 0, 0)
+
+	// Font
+	context.SetFontFace(font)
 
 	for x := 0; x < tileCount; x++ {
 		for y := 0; y < tileCount; y++ {
@@ -90,6 +107,10 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			context.SetHexColor(grid_border_color)
 
 			context.Stroke()
+
+			// Grid id
+			context.DrawStringAnchored(alphabet[y]+string(x), drawX+float64(tileSize)-10, drawY+10, .5, .5)
+
 		}
 	}
 
