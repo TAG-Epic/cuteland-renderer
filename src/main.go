@@ -96,7 +96,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			context.Stroke()
 
 			// Grid id
-			context.DrawStringAnchored(alphabet[y]+string(x), drawX+float64(tileSize)-10, drawY+10, .5, .5)
+			context.DrawStringAnchored(alphabet[y]+string(rune(x)), drawX+float64(tileSize)-10, drawY+10, .5, .5)
 
 		}
 	}
