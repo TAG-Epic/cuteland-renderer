@@ -19,7 +19,7 @@ var (
 	backgroundSprite image.Image
 )
 var (
-	grid_border_color string = "#303030"
+	grid_border_color string = "#707070"
 	grid_color        string = "#e4e4a1"
 )
 
