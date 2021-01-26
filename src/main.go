@@ -1,15 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/fogleman/gg"
 	"image"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
-	"strconv"
-
-	"github.com/fogleman/gg"
+	"strings"
 )
 
 var listen = "0.0.0.0:5050"
@@ -19,16 +18,6 @@ var (
 	ErrorLogger   *log.Logger
 )
 var (
-	backgroundSprite image.Image
-	borderSprite     image.Image
-)
-var (
-	grid_border_color string = "#707070"
-	grid_color        string = "#e4e4a1"
-	grid_id_color     string = "#000"
-)
-var (
-	alphabet    = []string{"A", "B", "C", "D", "E"}
 	spriteCache = make(map[string]image.Image)
 )
 
@@ -37,11 +26,6 @@ func init() {
 	InfoLogger = log.New(os.Stdout, "INFO: ", 0)
 	WarningLogger = log.New(os.Stdout, "INFO: ", 0)
 	ErrorLogger = log.New(os.Stdout, "INFO: ", 0)
-
-	// Sprite loading
-	InfoLogger.Print("Loading sprites")
-	loadSprite("background", &backgroundSprite)
-	loadSprite("default-border", &borderSprite)
 }
 
 func main() {
@@ -57,8 +41,14 @@ func main() {
 }
 
 func renderBoard(w http.ResponseWriter, r *http.Request) {
+	// Loading data
+	var data map[string]interface{}
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		ErrorLogger.Printf("Failed decoding JSON %s", err)
+	}
+
 	// Constants
-	world_name = r.URL.Query()
 	size := 1000
 	margin := size / 4
 	tileCount := 5
@@ -66,46 +56,25 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 
 	context := gg.NewContext(size, size)
 
+	InfoLogger.Printf("Drawing board with map type: %s", data["world"])
+
 	// Background
-	context.DrawImage(backgroundSprite, 0, 0)
-	context.DrawImage(borderSprite, 0, 0)
+	context.DrawImage(getSprite(data["world"].(string) + "-world"), 0, 0)
+
+
 
 	for x := 0; x < tileCount; x++ {
 		for y := 0; y < tileCount; y++ {
 			drawX := float64((tileSize * x) + margin)
 			drawY := float64((tileSize * y) + margin)
+			currentTile := data["tiles"].([]interface{})[x].([]interface{})[y]
 
-			// Main tile
-			context.DrawRectangle(drawX+1, drawY+1, float64(tileSize-1), float64(tileSize-1))
-			context.SetHexColor(grid_color)
-			context.Fill()
-
-			// Borders
-
-			// Horizontal
-			context.DrawLine(drawX, drawY, drawX+float64(tileSize), drawY)
-			context.SetLineWidth(2)
-			context.SetHexColor(grid_border_color)
-			context.DrawLine(drawX, drawY+float64(tileSize), drawX+float64(tileSize), drawY+float64(tileSize))
-			context.SetLineWidth(2)
-			context.SetHexColor(grid_border_color)
-
-			// Vertical
-			context.DrawLine(drawX, drawY, drawX, drawY+float64(tileSize))
-			context.SetLineWidth(2)
-			context.SetHexColor(grid_border_color)
-			context.DrawLine(drawX+float64(tileSize), drawY, drawX+float64(tileSize), drawY+float64(tileSize))
-			context.SetLineWidth(2)
-			context.SetHexColor(grid_border_color)
-
-			context.Stroke()
-
-			// Grid id
-			gridX := drawX + 20
-			gridY := drawY + float64(tileSize-1) - 20
-
-			context.SetHexColor(grid_id_color)
-			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x+1), 10), gridX, gridY, 1, 1)
+			InfoLogger.Printf("Tile pos: %f %f", drawX, drawY)
+			InfoLogger.Printf("Tile at %d %d is %s", x, y, currentTile)
+			if currentTile == nil {
+				continue
+			}
+			context.DrawImage(getTile(currentTile.(string)), int(drawX+1), int(drawY+1))
 
 		}
 	}
@@ -135,4 +104,9 @@ func getSprite(spriteName string) image.Image {
 		return sprite
 	}
 	return sprite
+}
+
+func getTile(tileName string) image.Image {
+	tileName = strings.Replace(tileName, ":", "_", -1)
+	return getSprite(tileName)
 }
