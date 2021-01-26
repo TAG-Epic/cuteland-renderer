@@ -99,7 +99,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 
 			// Grid id
 			context.SetHexColor(grid_id_color)
-			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x+1), 10), drawX-10, drawY+float64(tileSize)+10, 1, 1)
+			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x), 10), drawX-10, drawY+float64(tileSize)+10, 1, 1)
 
 		}
 	}
