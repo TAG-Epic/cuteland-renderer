@@ -5,6 +5,7 @@ import (
 	"image"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 
@@ -27,7 +28,8 @@ var (
 	grid_id_color     string = "#000"
 )
 var (
-	alphabet = []string{"A", "B", "C", "D", "E"}
+	alphabet    = []string{"A", "B", "C", "D", "E"}
+	spriteCache = make(map[string]image.Image)
 )
 
 func init() {
@@ -39,7 +41,7 @@ func init() {
 	// Sprite loading
 	InfoLogger.Print("Loading sprites")
 	loadSprite("background", &backgroundSprite)
-	loadSprite("border", &borderSprite)
+	loadSprite("default-border", &borderSprite)
 }
 
 func main() {
@@ -56,6 +58,7 @@ func main() {
 
 func renderBoard(w http.ResponseWriter, r *http.Request) {
 	// Constants
+	world_name = r.URL.Query()
 	size := 1000
 	margin := size / 4
 	tileCount := 5
@@ -111,11 +114,25 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 	_ = context.EncodePNG(w)
 }
 
-func loadSprite(spriteName string, sprite *image.Image) {
+func loadSprite(spriteName string, sprite *image.Image) bool {
 	InfoLogger.Printf("Loading sprite %s", spriteName)
 	spriteImage, err := gg.LoadImage(fmt.Sprintf("../sprites/%s.png", spriteName))
 	if err != nil {
-		panic(err)
+		return false
 	}
 	*sprite = spriteImage
+	return true
+}
+
+func getSprite(spriteName string) image.Image {
+	sprite, ok := spriteCache[spriteName]
+	if !ok {
+		ok = loadSprite(spriteName, &sprite)
+		if !ok {
+			return nil
+		}
+		spriteCache[spriteName] = sprite
+		return sprite
+	}
+	return sprite
 }
