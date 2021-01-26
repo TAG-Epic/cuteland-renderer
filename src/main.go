@@ -21,7 +21,6 @@ var (
 var (
 	backgroundSprite image.Image
 	rocksSprite      image.Image
-	font             truetype.FontFace
 )
 var (
 	grid_border_color string = "#707070"
@@ -41,13 +40,6 @@ func init() {
 	InfoLogger.Print("Loading sprites")
 	loadSprite("background", &backgroundSprite)
 	loadSprite("rocks", &rocksSprite)
-
-	InfoLogger.Print("Loading fonts")
-	fontRaw, err := truetype.Parse(goregular.TFF)
-	if err != nil {
-		panic(err)
-	}
-	font = truetype.NewFace(font, &truetype.Options{Size: 48})
 }
 
 func main() {
@@ -74,9 +66,6 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 	// Background
 	context.DrawImage(backgroundSprite, 0, 0)
 	context.DrawImage(rocksSprite, 0, 0)
-
-	// Font
-	context.SetFontFace(font)
 
 	for x := 0; x < tileCount; x++ {
 		for y := 0; y < tileCount; y++ {
