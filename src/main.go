@@ -18,6 +18,10 @@ var (
 var (
 	backgroundSprite image.Image
 )
+var (
+	grid_border_color string = "#303030"
+	grid_color        string = "#e4e4a1"
+)
 
 func init() {
 	//
@@ -61,7 +65,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 
 			// Main tile
 			context.DrawRectangle(drawX+1, drawY+1, float64(tileSize-1), float64(tileSize-1))
-			context.SetHexColor("#e4e4a1")
+			context.SetHexColor(grid_color)
 			context.Fill()
 
 			// Borders
@@ -69,18 +73,18 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			// Horizontal
 			context.DrawLine(drawX, drawY, drawX+float64(tileSize), drawY)
 			context.SetLineWidth(2)
-			context.SetHexColor("#000")
+			context.SetHexColor(grid_border_color)
 			context.DrawLine(drawX, drawY+float64(tileSize), drawX+float64(tileSize), drawY+float64(tileSize))
 			context.SetLineWidth(2)
-			context.SetHexColor("#000")
+			context.SetHexColor(grid_border_color)
 
 			// Vertical
 			context.DrawLine(drawX, drawY, drawX, drawY+float64(tileSize))
 			context.SetLineWidth(2)
-			context.SetHexColor("#000")
+			context.SetHexColor(grid_border_color)
 			context.DrawLine(drawX+float64(tileSize), drawY, drawX+float64(tileSize), drawY+float64(tileSize))
 			context.SetLineWidth(2)
-			context.SetHexColor("#000")
+			context.SetHexColor(grid_border_color)
 
 			context.Stroke()
 		}
