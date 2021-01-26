@@ -24,7 +24,7 @@ var (
 )
 
 func init() {
-	//
+	// Loggers
 	InfoLogger = log.New(os.Stdout, "INFO: ", 0)
 	WarningLogger = log.New(os.Stdout, "INFO: ", 0)
 	ErrorLogger = log.New(os.Stdout, "INFO: ", 0)
