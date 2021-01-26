@@ -48,7 +48,7 @@ func main() {
 	_, _ = fmt.Scanln(&backgroundSpriteName)
 	loadSprite(backgroundSpriteName, &backgroundSprite)
 
-	InfoLogger.Printf("Please input a background sprite name")
+	InfoLogger.Printf("Please input a border sprite name")
 	var borderSpriteName string
 	_, _ = fmt.Scanln(&borderSpriteName)
 	loadSprite(borderSpriteName, &rocksSprite)
