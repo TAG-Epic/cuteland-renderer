@@ -17,7 +17,7 @@ var (
 )
 var (
 	backgroundSprite image.Image
-	rocksSprite image.Image
+	rocksSprite      image.Image
 )
 var (
 	grid_border_color string = "#707070"
@@ -90,9 +90,6 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			context.SetHexColor(grid_border_color)
 
 			context.Stroke()
-
-			// Text
-			context.
 		}
 	}
 
