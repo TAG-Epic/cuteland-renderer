@@ -59,14 +59,16 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			drawX := float64((tileSize * x) + margin)
 			drawY := float64((tileSize * y) + margin)
 
-
 			// Main tile
-			context.DrawRectangle(drawX, drawY, float64(tileSize), float64(tileSize))
+			context.DrawRectangle(drawX+1, drawY+1, float64(tileSize-1), float64(tileSize-1))
 			context.SetHexColor("#e4e4a1")
 			context.Fill()
 
 			// Borders
 			context.DrawLine(drawX, drawY, drawX+float64(tileSize), drawY)
+			context.SetLineWidth(2)
+			context.SetHexColor("#000")
+			context.DrawLine(drawX, drawY+float64(tileSize), drawX+float64(tileSize), drawY+float64(tileSize))
 			context.SetLineWidth(2)
 			context.SetHexColor("#000")
 
