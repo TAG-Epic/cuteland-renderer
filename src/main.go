@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/fogleman/gg"
 )
@@ -96,7 +97,7 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			context.Stroke()
 
 			// Grid id
-			context.DrawStringAnchored(alphabet[y]+string(rune(x)), drawX+float64(tileSize)-10, drawY+10, .5, .5)
+			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x), 10), drawX+float64(tileSize)-10, drawY+10, .5, .5)
 
 		}
 	}
