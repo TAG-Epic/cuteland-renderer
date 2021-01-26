@@ -24,6 +24,7 @@ var (
 var (
 	grid_border_color string = "#707070"
 	grid_color        string = "#e4e4a1"
+	grid_id_color     string = "#000"
 )
 var (
 	alphabet = []string{"a", "b", "c", "d", "e"}
@@ -97,7 +98,8 @@ func renderBoard(w http.ResponseWriter, r *http.Request) {
 			context.Stroke()
 
 			// Grid id
-			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x), 10), drawX+float64(tileSize)-10, drawY+10, .5, .5)
+			context.SetHexColor(grid_id_color)
+			context.DrawStringAnchored(alphabet[y]+strconv.FormatInt(int64(x), 10), drawX+10, drawY+float64(tileSize)-10, 1, 1)
 
 		}
 	}
