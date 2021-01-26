@@ -27,7 +27,7 @@ var (
 	grid_id_color     string = "#000"
 )
 var (
-	alphabet = []string{"a", "b", "c", "d", "e"}
+	alphabet = []string{"A", "B", "C", "D", "E"}
 )
 
 func init() {
